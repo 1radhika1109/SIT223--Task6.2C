@@ -1,0 +1,57 @@
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    margin-top: 40px;
+  }
+  
+  .footer-subscription {
+    margin-bottom: 20px;
+  }
+  
+  .footer-subscription input {
+    padding: 5px;
+    margin-right: 10px;
+    width: 200px;
+  }
+  
+  .subscribe-button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .footer-links {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .footer-legal {
+    margin-top: 10px;
+  }
+  
+  .footer-legal a {
+    color: white;
+    margin-right: 10px;
+    text-decoration: none;
+  }
+  
+
+.response-message {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.response-message.success {
+  background-color: #4caf50; /* Green */
+}
+
+.response-message.error {
+  background-color: #f44336; /* Red */
+}

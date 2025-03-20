@@ -1,0 +1,31 @@
+.featured-section {
+    margin: 40px 0;
+  }
+  
+  .featured-items {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .featured-card {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .featured-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .see-all-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
