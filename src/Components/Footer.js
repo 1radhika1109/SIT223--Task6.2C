@@ -34,7 +34,7 @@ const Footer = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage('Subscription successful!');
+        setMessage('Subscription is successful!');
       } else {
         setMessage(data.message || 'Something went wrong.');
       }
