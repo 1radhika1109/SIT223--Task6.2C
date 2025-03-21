@@ -1,48 +1,123 @@
 pipeline {
     agent any
 
+    environment {
+
+        NOTIFICATION_EMAIL = 'goyalradhika005@gmail.com'
+    }
+
     stages {
-        stage('Clone Repository') {
+
+        stage('Build') {
             steps {
-                git 'https://github.com/1radhika1109/SIT223--Task6.2C.git'
+                echo 'Stage 1: Building React Application'
+                sh '''
+                    echo "Installing dependencies..."
+                    npm install
+                    echo "Building React app..."
+                    npm run build
+                '''
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Unit and Integration Tests') {
             steps {
-                sh 'npm install'
+                echo 'Stage 2: Running Unit & Integration Tests'
+                sh '''
+                    echo "Executing tests..."
+                    npm test -- --watchAll=false
+                '''
+            }
+            post {
+                always {
+                    emailext(
+                        subject: "Test Results: ${currentBuild.currentResult}",
+                        body: "Unit & Integration tests completed. Result: ${currentBuild.currentResult}",
+                        to: "${NOTIFICATION_EMAIL}",
+                        attachLog: true
+                    )
+                }
             }
         }
 
-        stage('Build React App') {
+        stage('Code Analysis') {
             steps {
-                sh 'npm run build'
+                echo 'Stage 3: Running ESLint for Code Analysis'
+                sh '''
+                    echo "Linting source code..."
+                    npx eslint ./src || true
+                '''
             }
         }
 
-        stage('Linting') {
+        stage('Security Scan') {
             steps {
-                sh 'npm run lint || true' // optional if lint configured
+                echo 'Stage 4: Running npm audit Security Scan'
+                sh '''
+                    echo "Scanning dependencies for vulnerabilities..."
+                    npm audit --audit-level=moderate || true
+                '''
+            }
+            post {
+                always {
+                    emailext(
+                        subject: "Security Scan Results: ${currentBuild.currentResult}",
+                        body: "Security scan completed. Result: ${currentBuild.currentResult}",
+                        to: "${NOTIFICATION_EMAIL}",
+                        attachLog: true
+                    )
+                }
             }
         }
 
-        stage('Test') {
+        stage('Deploy to Staging') {
             steps {
-                sh 'npm test || true' // optional if tests exist
+                echo 'Stage 5: Deploying React app to Staging Server'
+                    sh '''
+                        echo "Deploying to staging server..."
+                        scp -r build/* ubuntu@${STAGING_SERVER}:/var/www/html/
+                    '''
+                }
             }
         }
 
-        stage('Deploy') {
+        stage('Integration Tests on Staging') {
             steps {
-                echo 'Deploy stage placeholder'
-                // Optional: Add SCP/FTP steps or integration with deployment tools
+                echo 'Stage 6: Running Integration Tests on Staging Server'
+                sh '''
+                    echo "Running integration tests on staging environment..."
+                    # Placeholder - actual test framework (Cypress, Selenium) can be integrated here
+                '''
             }
         }
 
-        stage('Notify') {
+        stage('Deploy to Production') {
             steps {
-                mail bcc: '', body: 'Build Completed', from: '', subject: 'Jenkins Build Status', to: 'your-email@example.com'
+                echo 'Stage 7: Deploying React app to Production Server'
+                    sh '''
+                        echo "Deploying to production server..."
+                        scp -r build/* ubuntu@${PRODUCTION_SERVER}:/var/www/html/
+                    '''
+                }
             }
+        }
+    }
+
+    post {
+        failure {
+            emailext(
+                subject: "Pipeline Failed - Build #${BUILD_NUMBER}",
+                body: "Pipeline failed at stage: ${STAGE_NAME}. Please check the logs.",
+                to: "${NOTIFICATION_EMAIL}",
+                attachLog: true
+            )
+        }
+        success {
+            emailext(
+                subject: "Pipeline Success - Build #${BUILD_NUMBER}",
+                body: "All stages completed successfully. React app deployed.",
+                to: "${NOTIFICATION_EMAIL}"
+            )
         }
     }
 }
