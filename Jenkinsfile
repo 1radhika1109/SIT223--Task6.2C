@@ -14,7 +14,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Stage 1: Building React Application using npm (Build Automation Tool: npm)'
+                echo 'Stage 1: Building React Application using npm (Build Automation Tool)'
               
             }
         }
