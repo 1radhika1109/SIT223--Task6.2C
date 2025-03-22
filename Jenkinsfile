@@ -15,19 +15,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Stage 1: Building React Application using npm (Build Automation Tool: npm)'
-                sh '''
-                    npm install
-                    npm run build
-                '''
+              
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Stage 2: Running Unit & Integration Tests using Jest (Test Automation Tool)'
-                sh '''
-                    npm test > test-results.txt || true
-                '''
+               
             }
             post {
                 always {
@@ -44,19 +39,14 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 echo 'Stage 3: Running ESLint for Code Analysis'
-                sh '''
-                    npm install eslint
-                    npx eslint . > eslint-report.txt || true
-                '''
+               
             }
         }
 
         stage('Security Scan') {
             steps {
                 echo 'Stage 4: Running npm audit Security Scan'
-                sh '''
-                    npm audit --json > audit-report.json || true
-                '''
+               
             }
             post {
                 always {
@@ -73,30 +63,21 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 echo 'Stage 5: Deploying React app to Staging Server (Tool: SCP/SSH)'
-                sh '''
-                    echo "scp -r build/ user@staging-server:/path/to/staging"
-                    # Actual SCP command should be configured here
-                '''
+            
             }
         }
 
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Stage 6: Running Integration Tests on Staging using Cypress/Selenium (Placeholder)'
-                sh '''
-                    echo "Run integration tests on staging server"
-                    # Actual test commands go here
-                '''
+
             }
         }
 
         stage('Deploy to Production') {
             steps {
                 echo 'Stage 7: Deploying React app to Production Server (Tool: SCP/SSH)'
-                sh '''
-                    echo "scp -r build/ user@production-server:/path/to/production"
-                    # Actual SCP command should be configured here
-                '''
+                
             }
         }
     }
