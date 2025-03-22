@@ -5,10 +5,10 @@ pipeline {
         NOTIFICATION_EMAIL = 'goyalradhika005@gmail.com'
     }
 
-    triggers {
-        // GitHub webhook trigger (recommended for auto-trigger)
-        githubPush()
-    }
+   triggers {
+    // Polling GitHub repository every 2 minutes
+    pollSCM('H/2 * * * *')
+}
 
     stages {
 
