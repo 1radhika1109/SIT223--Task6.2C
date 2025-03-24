@@ -5,11 +5,6 @@ pipeline {
         NOTIFICATION_EMAIL = 'goyalradhika005@gmail.com'
     }
 
-    triggers {
-        // Polling GitHub repository every 2 minutes
-        pollSCM('H/2 * * * *')
-    }
-
     stages {
 
         stage('Build') {
@@ -28,7 +23,6 @@ pipeline {
                         subject: "Test Results: ${currentBuild.currentResult}",
                         body: "Unit & Integration tests completed. Result: ${currentBuild.currentResult}",
                         to: "${NOTIFICATION_EMAIL}",
-                        attachmentsPattern: 'test-results.txt'
                     )
                 }
             }
@@ -50,7 +44,6 @@ pipeline {
                         subject: "Security Scan Results: ${currentBuild.currentResult}",
                         body: "Security scan completed. Result: ${currentBuild.currentResult}",
                         to: "${NOTIFICATION_EMAIL}",
-                        attachmentsPattern: 'audit-report.json'
                     )
                 }
             }
