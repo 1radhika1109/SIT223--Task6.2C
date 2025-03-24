@@ -57,7 +57,7 @@ pipeline {
 
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Stage 6: Running Integration Tests on Staging using CypressSelenium'
+                echo 'Stage 6: Running Integration Tests on Staging using Cypress/Selenium'
             }
         }
 
