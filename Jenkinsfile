@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                echo 'Building Docker image...'
+                echo 'Building Docker image....'
             }
         }
         stage('Push Docker Image') {
