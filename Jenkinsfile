@@ -68,20 +68,18 @@ pipeline {
         }
     }
 
-    post {
-        failure {
-            mail(
-                subject: "Pipeline Failed - Build #${BUILD_NUMBER}",
-                body: "Pipeline failed at stage ${env.STAGE_NAME}. Please check Jenkins logs.",
-                to: "${NOTIFICATION_EMAIL}"
-            )
-        }
-        success {
-            mail(
-                subject: "Pipeline Success - Build #${BUILD_NUMBER}",
-                body: "All stages completed successfully. React app deployed.",
-                to: "${NOTIFICATION_EMAIL}"
-            )
-        }
+   post {
+    success {
+        mail to: 'goyalradhika005@gmail.com',
+             subject: "Build Success",
+             body: "The build was successful."
+    }
+    failure {
+        mail to: 'goyalradhika005@gmail.com',
+             subject: "Build Failed",
+             body: "The build has failed. Please check Jenkins."
+    }
+}
+
     }
 }
